@@ -13,22 +13,22 @@ function App() {
   });
   const randomCardArray = cardArray.sort(() => Math.random() - 0.5);
   
-  const [turn, setTurn] = useState([]);
-  const [countTurn, setCountTurn] = useState(0);
-  const [randomCards, setRandomCards] = useState(randomCardArray);
-  const [uniqueIds, setUniqueIds] = useState([]);
-  const [rightIds, setRightIds] = useState([]);
+  const [randomCards, setRandomCards] = useState(randomCardArray); // place to hold the card dataset
+  const [turn, setTurn] = useState([]); // list of selected cards (up to two per turn)
+  const [cardsSelected, setCardsSelected] = useState(0); // counts the number of cards selected per turn
+  const [uniqueIds, setUniqueIds] = useState([]); // list of ids logged during each turn to make sure user doesn't click the same card twice
+  const [correctIds, setCorrectIds] = useState([]); // list of correctly matched cards by id
 
-  console.log("countTurn", countTurn);
+  console.log("cardsSelected outside func", cardsSelected);
   console.log("turn", turn);
-  console.log("uniqueIds", uniqueIds);
-  console.log("rightIds", rightIds);
+  //console.log("uniqueIds", uniqueIds);
+  //console.log("correctIds", correctIds);
 
   const checkAnswer = () => {
     // save correct answers
     if (turn[0] === turn[1]) {
       uniqueIds.forEach( (id) => {
-        setRightIds(rightIds.concat(id));
+        setCorrectIds([...correctIds, id]);
       });
     }
   }
@@ -41,42 +41,44 @@ function App() {
       cards.forEach((card) => { 
         //debugger;
         // keep correct answers visible
-        if ((rightIds.indexOf(card.id) === -1)) {
+        if ((correctIds.indexOf(card.id) === -1)) {
           card.innerHTML = ""; // remove if not found
         }
-        setCountTurn(0);
       });
+      setCardsSelected(0);
     }, 1000);
   }
 
-  const cardHandler = (e) => {
+  const cardHandler = (e) => {    
     const pairId = e.target.getAttribute("data-pairId");
     const word = e.target.getAttribute("data-word"); 
     const id = e.target.id; 
     
     // check if same card has been clicked twice
-    if ((uniqueIds.indexOf(id) != -1)) {
-      //console.log("Same card");
+    if ((uniqueIds.indexOf(id) !== -1)) {
+      console.log("!!Same card!!");
       return; // exit function
     }
 
-    if (countTurn > 2) {
-      //console.log("More than 2 cards");
+    if (cardsSelected > 2) {
+      console.log("!!More than 2 cards!!");
       return; // exit function
     }
 
-    setUniqueIds(uniqueIds.concat(id));
-    setCountTurn(countTurn + 1);
+    setCardsSelected(cardsSelected + 1);
+    console.log("cardsSelected inside func", cardsSelected);
 
-    if (countTurn >= 2) {
+    setUniqueIds([...uniqueIds, id]);
+
+    if (cardsSelected >= 2) {
       // remove the element text values
       checkAnswer();
-      setTurn([]);
-      resetDeck(); // calls setCountTurn(0);
+      setTurn([]);      
+      resetDeck(); // calls setCardsSelected(0);
       setUniqueIds([]);
     }
     else {
-      setTurn(turn.concat(pairId));
+      setTurn([...turn, pairId]);
       e.target.innerHTML = word;
     }
 
