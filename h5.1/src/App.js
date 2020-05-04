@@ -58,15 +58,15 @@ function App() {
       // selected never has 2 array items!
       if (selected[0] === selected[1]) {
         setCorrectIds([...correctIds, uniqueIds]); // cards were matched - add to correctIds 
-        console.log("correctIds", correctIds); // never called 
+        console.log("correctIds", correctIds);
         console.log("uniqueIds", uniqueIds);
       } else {
-        console.log("else uniqueIds", uniqueIds); // always called
+        console.log("else uniqueIds", uniqueIds); 
+        resetDeck(); // answer incorrect, flip cards
       }
       // reset various states
       setUniqueIds([]); 
       setSelected([]);
-      resetDeck();
       setCountSelected(0)
     }
   };
