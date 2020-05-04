@@ -32,6 +32,7 @@ function App() {
   const resetDeck = () => {
     setTimeout(() => { 
       // flip cards after 2 secs
+      console.log("resetDeck -> uniqueIds", uniqueIds);      
       uniqueIds.forEach((id, i, array) => {
         setShowState({ ...showState, [id]: !showState[id] }); // replace the values of the objects with the same properties
       });
@@ -51,22 +52,26 @@ function App() {
         return prev + 1;            
       }
     });
+
+    if (countSelected === 2) {
+      console.log("countSelected === 2 - selected", selected);
+      // selected never has 2 array items!
+      if (selected[0] === selected[1]) {
+        setCorrectIds([...correctIds, uniqueIds]); // cards were matched - add to correctIds 
+        console.log("correctIds", correctIds); // never called 
+        console.log("uniqueIds", uniqueIds);
+      } else {
+        console.log("else uniqueIds", uniqueIds); // always called
+      }
+      // reset various states
+      setUniqueIds([]); 
+      setSelected([]);
+      resetDeck();
+      setCountSelected(0)
+    }
   };
 
-  if (countSelected === 2) {
-    console.log("countSelected === 2 - selected", selected);
-    // selected never has 2 array items!
-    if (selected[0] === selected[1]) {
-      setCorrectIds([...correctIds, uniqueIds]); // concat 
-      setUniqueIds([...uniqueIds, []]); // reset the array
-      console.log("correctIds", correctIds); // never called 
-      console.log("uniqueIds", uniqueIds);
-    } else {
-      console.log("else uniqueIds", uniqueIds); // always called
-    }
-    resetDeck();
-    setCountSelected(0)
-  }
+
   //console.log("countSelected", countSelected);
   //console.log("selected", selected);
   //console.log("uniqueIds", uniqueIds);
