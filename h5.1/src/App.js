@@ -67,8 +67,8 @@ function App() {
       uniqueIds.forEach((uniqueId) => {
         setCorrectIds(prev => ([ ...prev, uniqueId ])); 
       });
-      console.log("correctIds", correctIds);
-    } else {
+    } 
+    else {
       resetDeck(); // answer incorrect, flip cards
     }
     // reset various states

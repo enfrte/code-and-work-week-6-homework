@@ -1,12 +1,6 @@
-import React, { useState } from 'react';
-import '../App.css';
+import React from 'react';
 
-function Card(props) {
-
-	const showCard = () => {
-		return props.show === true ? props.word : '';
-	};
-
+function Card(props) {	
   return (
 		<div className="game-card-container">
 			<div 
