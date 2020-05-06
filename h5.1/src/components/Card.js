@@ -15,7 +15,7 @@ function Card(props) {
 				className={"game-card"}
 				data-pairid={props.pairId}
 				data-word={props.word}>
-					{props.show === true ? props.word : ''}
+					{props.show === true ? props.word : ''}{/*"!" + props.word + "!"*/}
 			</div>{/* data-* must be lowercase */}
 		</div>
   );
